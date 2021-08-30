@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OneToOneRelation.Models;
 
+
+
 namespace OneToOneRelation.Controllers
 {
     public class EmployeesController : Controller
@@ -19,30 +21,64 @@ namespace OneToOneRelation.Controllers
         }
 
         // GET: Employees
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    var dataContext = _context.employee.Include(e => e.dept);
+        //    return View(await dataContext.ToListAsync());
+        //}
+
+        public IActionResult Index()
         {
-            var dataContext = _context.employee.Include(e => e.dept);
-            return View(await dataContext.ToListAsync());
+            var dataContext = _context.employee.Where(e=>e.DelStatus=='A').ToList();
+            return View(dataContext);
         }
 
-        // GET: Employees/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //[HttpGet]
+        //public IActionResult Index(string searchText, string sortOrder)
+        //{
+        //    ViewData["NameSortParam"] = sortOrder == "Name" ? "name_desc" : "name_asc";
+        //    ViewData["DesignationSortParam"] = sortOrder == "Designation" ? "design_desc" : "design_asc";
+        //    ViewData["DateSortParam"] = sortOrder == "HireDate" ? "date_desc" : "date_asc";
+        //    ViewData["CurrentSearch"] = searchText;
 
-            var employee = await _context.employee
-                .Include(e => e.dept)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
+        //    var employee = from emp in _context.employee where emp.DelStatus == 'A' select emp;
+        //    if (!string.IsNullOrEmpty(searchText))
+        //    {
+        //        employee = employee.Where(x => x.Name.ToLower().Contains(searchText.ToLower()));
+        //    }
 
-            return View(employee);
-        }
+        //    switch (sortOrder)
+        //    {
+        //        case "name_asc":
+        //            employee = employee.OrderBy(x => x.Name);
+        //            break;
+
+        //        case "name_desc":
+        //            employee = employee.OrderByDescending(x => x.Name);
+        //            break;
+        //        case "design_asc":
+        //            employee = employee.OrderBy(x => x.Designation);
+        //            break;
+        //        case "design_desc":
+        //            employee = employee.OrderByDescending(x => x.Designation);
+        //            break;
+        //        case "date_asc":
+        //            employee = employee.OrderBy(x => x.HireDate);
+        //            break;
+        //        case "date_desc":
+        //            employee = employee.OrderByDescending(x => x.HireDate);
+        //            break;
+        //        default:
+        //            employee = employee.OrderBy(x => x.Id);
+        //            break;
+
+        //    }
+
+        //    return View(employee.ToList());
+
+
+        //}
+
 
         // GET: Employees/Create
         public IActionResult Create()
@@ -121,39 +157,25 @@ namespace OneToOneRelation.Controllers
             return View(employee);
         }
 
-        // GET: Employees/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var employee = await _context.employee
-                .Include(e => e.dept)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            return View(employee);
-        }
-
-        // POST: Employees/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var employee = await _context.employee.FindAsync(id);
-            _context.employee.Remove(employee);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
         private bool EmployeeExists(int id)
         {
-            return _context.employee.Any(e => e.Id == id);
+            throw new NotImplementedException();
         }
+
+        public IActionResult Delete(int? id)
+        {
+            var emp = _context.employee.FirstOrDefault(x => x.Id == id);
+
+            if (emp == null)
+            {
+                return NotFound();
+            }
+            _context.employee.Remove(emp);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        
     }
 }

@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
+
 namespace OneToOneRelation
 {
     public class Startup
@@ -24,6 +26,7 @@ namespace OneToOneRelation
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddRazorPages();
 
             services.AddDbContext<Models.DataContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
@@ -44,6 +47,7 @@ namespace OneToOneRelation
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
@@ -52,6 +56,8 @@ namespace OneToOneRelation
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapRazorPages();
             });
         }
     }

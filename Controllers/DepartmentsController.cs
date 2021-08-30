@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OneToOneRelation.Models;
 
+
+
 namespace OneToOneRelation.Controllers
 {
     public class DepartmentsController : Controller

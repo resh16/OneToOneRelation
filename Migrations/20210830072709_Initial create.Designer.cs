@@ -10,8 +10,8 @@ using OneToOneRelation.Models;
 namespace OneToOneRelation.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210825185400_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210830072709_Initial create")]
+    partial class Initialcreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
