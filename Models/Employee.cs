@@ -21,8 +21,8 @@ namespace OneToOneRelation.Models
         public string Name { get; set; }
 
 
-        [Required(ErrorMessage = "Designation is required")]
-        public string Designation { get; set; }
+        //  [Required(ErrorMessage = "Destination is required")]
+        public string Destination { get; set; } = "Chennai";
 
 
         [Required(ErrorMessage = "The hired date is required")]
@@ -36,5 +36,7 @@ namespace OneToOneRelation.Models
         public int DepartmentId { get; set; }
         [ForeignKey("DepartmentId")]
         public virtual Department dept { get; set; }
+
+        public List<Skill> Skills { get; set; }
     }
 }
